@@ -1,0 +1,22 @@
+image: docker:stable       
+
+variables:
+  DOCKER_DRIVER: overlay2
+  GIT_SSL_NO_VERIFY: "true"
+  CI_REGISTRY_USER: "sonar-runner"
+  CI_RUTA_FILE: ""
+  CI_VERSION: ""
+  IP: ""
+
+stages:
+  - SONAR
+  - DEV
+  - QA
+  - PROD
+
+include:
+  - template: sonar-scanner.gitlab-ci.yml
+  - template: microservice-build-micro.gitlab-ci.yml
+  - template: artifactory-scripts-micro.gitlab-ci.yml
+  - template: artifactory-scripts-micro-prd.gitlab-ci.yml
+  - template: merge-prod.gitlab-ci.yml

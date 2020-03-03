@@ -1,0 +1,4 @@
+/target/
+application.properties
+docker-compose-swarmnew.yml
+docker-compose-new.yml

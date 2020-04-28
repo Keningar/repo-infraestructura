@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>infraestructura</name>
-	<comment></comment>
+	<name>db-repositorio-infraestructura</name>
+	<comment>Modulo msa esquema infraestructura</comment>
 	<projects>
 	</projects>
 	<buildSpec>

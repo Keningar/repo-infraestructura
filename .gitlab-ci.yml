@@ -1,4 +1,4 @@
-image: docker:stable       
+image: docker:stable                          
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -16,7 +16,10 @@ stages:
 
 include:
   - template: sonar-scanner.gitlab-ci.yml
-  - template: microservice-build-micro.gitlab-ci.yml
-  - template: artifactory-scripts-micro.gitlab-ci.yml
-  - template: artifactory-scripts-micro-prd.gitlab-ci.yml
+  - template: microservice-build-microdev.gitlab-ci.yml
+  - template: artifactory-scripts-microdev.gitlab-ci.yml
+  - template: microservice-build-microqams.gitlab-ci.yml
+  - template: artifactory-scripts-microsqa.gitlab-ci.yml
+  - template: microservice-build-microprd.gitlab-ci.yml
+  - template: artifactory-scripts-micro-prod.gitlab-ci.yml
   - template: merge-prod.gitlab-ci.yml

@@ -1,6 +1,12 @@
 package ec.telconet.microservicios.dependencias.esquema.infraestructura.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
+
+import ec.telconet.microservicio.dependencia.util.exception.GenericException;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DatosVehiculoReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DatosVehiculoResDTO;
 
 /**
  * Service del paquete INKG_ELEMENTO_CONSULTA, se deberá crear un DTO por procedimiento o función que no estén
@@ -12,5 +18,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface InkgElementoConsultaService {
-	
+	public List<DatosVehiculoResDTO> datosVehiculo(DatosVehiculoReqDTO request) throws GenericException;
 }

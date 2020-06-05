@@ -9,6 +9,7 @@ import ec.telconet.microservicio.dependencia.util.cons.CoreUtilConstants;
 import ec.telconet.microservicio.dependencia.util.dto.PageDTO;
 import ec.telconet.microservicio.dependencia.util.exception.GenericException;
 import ec.telconet.microservicio.dependencia.util.general.Formato;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DatosVehiculoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DetalleElementoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorCantonParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorFilialParamsReqDTO;
@@ -375,5 +376,34 @@ public class InfraestructuraValidators {
 		if (request.getFilialId() == null && request.getNombreFilial() == null) {
 			throw new GenericException("El valor filialId o nombreFilial es requerido", CoreUtilConstants.MISSING_VALUES);
 		}
+	}
+	
+	public void validarDatosVehiculo(DatosVehiculoReqDTO request) throws GenericException {
+		String nombreTipo = "VEHICULO";
+		if (request.getIdElemento() != null) {
+			if (!infoElementoRepo.existsById(request.getIdElemento())) {
+				throw new GenericException("El id del elemento " + request.getIdElemento() + " no existe", CoreUtilConstants.EXISTING_VALUES);
+			}
+			if (!validarTipoElemento(request.getIdElemento(), nombreTipo)) {
+				throw new GenericException("El elemento no es de tipo " + nombreTipo, CoreUtilConstants.INFORMATIVE_VALUES);
+			}
+		}
+	}
+	
+	private Boolean validarTipoElemento(Long idElemento, String nombreTipo) {
+		Boolean response;
+		try {
+			InfoElemento elemento = infoElementoRepo.findById(idElemento).get();
+			AdmiModeloElemento modeloElemento = admiModeloElementoRepo.findById(elemento.getModeloElementoId()).get();
+			AdmiTipoElemento tipoElemento = admiTipoElementoRepo.findById(modeloElemento.getTipoElementoId()).get();
+			if (tipoElemento.getNombreTipoElemento().equalsIgnoreCase(nombreTipo)) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			response = false;
+		}
+		return response;
 	}
 }

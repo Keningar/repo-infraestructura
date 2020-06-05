@@ -41,4 +41,6 @@ public class InfraestructuraProperties {
 	private String proceHistorialElementoPorElemento;
 	@Value("${db.proce.historialElementoPorFecha}")
 	private String proceHistorialElementoPorFecha;
+	@Value("${db.proce.datosVehiculo}")
+	private String proceDatosVehiculo;
 }

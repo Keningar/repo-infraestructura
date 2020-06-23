@@ -13,6 +13,7 @@ import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.Datos
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DetalleElementoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorCantonParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorFilialParamsReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorGrupoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorParroquiaParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorProvinciaParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorRegionParamsReqDTO;
@@ -405,5 +406,11 @@ public class InfraestructuraValidators {
 			response = false;
 		}
 		return response;
+	}
+	
+	public void validarElementoPorGrupo(ElementoPorGrupoReqDTO request) throws GenericException {
+		if (request.getGrupoId() == null) {
+			throw new GenericException("El valor grupoId es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
 	}
 }

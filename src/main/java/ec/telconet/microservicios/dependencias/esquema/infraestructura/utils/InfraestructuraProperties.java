@@ -45,4 +45,14 @@ public class InfraestructuraProperties {
 	private String proceDatosVehiculo;
 	@Value("${db.proce.elementoPorGrupo}")
 	private String proceElementoPorGrupo;
+	@Value("${db.paquete.soluciones.transaccion}")
+	private String nombrePaqueteSolucionesTrans;
+	@Value("${db.proce.soluciones.crearMaquinaVirtual}")
+	private String proceCrearMaquinaVirtual;
+	@Value("${db.proce.soluciones.crearFactibilidadServidor}")
+	private String proceCrearFactibilidadServidor;
+	@Value("${db.proce.soluciones.crearFactibPoolServidor}")
+	private String proceCrearFactibPoolServidor;
+	@Value("${db.proce.soluciones.crearFactibilidadMV}")
+	private String proceCrearFactibilidadMV; 
 }

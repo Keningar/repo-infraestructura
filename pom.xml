@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>ec.telconet.microservicios.dependencias</groupId>
 			<artifactId>ms-core</artifactId>
-			<version>1.0.0-RELEASE</version>
+			<version>1.0.4-RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

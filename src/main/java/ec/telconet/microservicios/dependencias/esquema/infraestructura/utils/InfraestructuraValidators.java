@@ -3,15 +3,18 @@ package ec.telconet.microservicios.dependencias.esquema.infraestructura.utils;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 
 import ec.telconet.microservicio.dependencia.util.cons.CoreUtilConstants;
 import ec.telconet.microservicio.dependencia.util.dto.PageDTO;
+import ec.telconet.microservicio.dependencia.util.enumerado.StatusHandler;
 import ec.telconet.microservicio.dependencia.util.exception.GenericException;
 import ec.telconet.microservicio.dependencia.util.general.Formato;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DatosVehiculoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DetalleElementoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorCantonParamsReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorDepartamentoParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorFilialParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorGrupoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorParroquiaParamsReqDTO;
@@ -20,6 +23,7 @@ import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.Eleme
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorTipoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.HistorialElementoPorFechaReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.HistorialElementoReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.UbicacionElementoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.AdmiMarcaElemento;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.AdmiModeloElemento;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.AdmiTipoElemento;
@@ -109,7 +113,7 @@ public class InfraestructuraValidators {
 		if (request.getTabla() == null) {
 			throw new GenericException("El valor tabla es requerido", CoreUtilConstants.MISSING_VALUES);
 		}
-		if (request.getOrder() != null && !(request.getOrder().equalsIgnoreCase("ASC") || request.getOrder().equalsIgnoreCase("DESC"))) {
+		if (request.getOrder() != null && !(request.getOrder().equals("ASC") || request.getOrder().equals("DESC"))) {
 			throw new GenericException("El valor order debe ser ASC o DESC", CoreUtilConstants.MISSING_VALUES);
 		}
 	}
@@ -237,6 +241,13 @@ public class InfraestructuraValidators {
 		}
 		if (request.getUsrCreacion() == null) {
 			throw new GenericException("El valor usrCreacion es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+		InfoDetalleElemento existElementoReq = new InfoDetalleElemento();
+		existElementoReq.setElementoId(request.getElementoId());
+		existElementoReq.setDetalleNombre(request.getDetalleNombre());
+		existElementoReq.setEstado(StatusHandler.Activo.toString());
+		if (infoDetalleElementoRepo.findAll(Example.of(existElementoReq)).size() > 0) {
+			throw new GenericException("El detalle " + request.getDetalleNombre() + " ya existe", CoreUtilConstants.EXISTING_VALUES);
 		}
 	}
 	
@@ -411,6 +422,36 @@ public class InfraestructuraValidators {
 	public void validarElementoPorGrupo(ElementoPorGrupoReqDTO request) throws GenericException {
 		if (request.getGrupoId() == null) {
 			throw new GenericException("El valor grupoId es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+	}
+	
+	public void validarElementoPorDepartamentoParams(ElementoPorDepartamentoParamsReqDTO request) throws GenericException {
+		if (request.getDepartamentoId() == null && request.getNombreDepartamento() == null) {
+			throw new GenericException("El valor departamentoId o nombreDepartamento es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+	}
+	
+	public void validarAsignarUbicacionElemento(UbicacionElementoReqDTO request) throws GenericException {
+		if (request.getElementoId() == null) {
+			throw new GenericException("El valor elementoId es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+		if (request.getOficinaId() == null) {
+			throw new GenericException("El valor oficinaId es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+		if (request.getEmpresaCod() == null) {
+			throw new GenericException("El valor empresaCod es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+		if (request.getUsrCreacion() == null) {
+			throw new GenericException("El valor usrCreacion es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+	}
+	
+	public void validarModificarUbicacionElemento(UbicacionElementoReqDTO request) throws GenericException {
+		if (request.getElementoId() == null) {
+			throw new GenericException("El valor elementoId es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+		if (request.getOficinaId() == null) {
+			throw new GenericException("El valor oficinaId es requerido", CoreUtilConstants.MISSING_VALUES);
 		}
 	}
 }

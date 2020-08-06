@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class ElementoPorRegionParamsReqDTO extends ElementoReqDTO {
 	private String region;
-	private Integer tipoId;
+	private Long tipoId;
 	private String nombreTipo;
 	private String detalle;
 	private String detalleValor;

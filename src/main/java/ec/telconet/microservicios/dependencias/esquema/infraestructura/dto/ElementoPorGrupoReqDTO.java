@@ -12,5 +12,6 @@ import lombok.Data;
 @Data
 public class ElementoPorGrupoReqDTO {
 	private Long grupoId;
+	private Long elementoId;
 	private String estado;
 }

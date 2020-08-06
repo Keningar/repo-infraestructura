@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 public class ElementoPorParroquiaParamsReqDTO extends ElementoReqDTO {
 	private Long parroquiaId;
 	private String nombreParroquia;
-	private Integer tipoId;
+	private Long tipoId;
 	private String nombreTipo;
 	private String detalle;
 	private String detalleValor;

@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 public class ElementoPorFilialParamsReqDTO extends ElementoReqDTO {
 	private Long filialId;
 	private String nombreFilial;
-	private Integer tipoId;
+	private Long tipoId;
 	private String nombreTipo;
 	private String detalle;
 	private String detalleValor;

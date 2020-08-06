@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 public class ElementoPorCantonParamsReqDTO extends ElementoReqDTO {
 	private Long cantonId;
 	private String nombreCanton;
-	private Integer tipoId;
+	private Long tipoId;
 	private String nombreTipo;
 	private String detalle;
 	private String detalleValor;

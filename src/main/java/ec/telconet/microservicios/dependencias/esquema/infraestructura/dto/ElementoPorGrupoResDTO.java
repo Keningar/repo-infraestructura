@@ -24,5 +24,6 @@ public class ElementoPorGrupoResDTO {
 	private String chip;
 	private String cuadrilla;
 	private String nombreCuadrilla;
+	private Long oficinaId;
 	private String estado;
 }

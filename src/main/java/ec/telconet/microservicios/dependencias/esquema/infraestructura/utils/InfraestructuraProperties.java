@@ -33,6 +33,8 @@ public class InfraestructuraProperties {
 	private String proceElementoPorCantonParams;
 	@Value("${db.proce.elementoPorFilialParams}")
 	private String proceElementoPorFilialParams;
+	@Value("${db.proce.elementoPorDepartamentoParams}")
+	private String proceElementoPorDepartamentoParams;
 	@Value("${db.proce.elementoPorEsMonitorizado}")
 	private String proceElementoPorEsMonitorizado;
 	@Value("${db.proce.detalleElementoPorElemento}")
@@ -54,5 +56,9 @@ public class InfraestructuraProperties {
 	@Value("${db.proce.soluciones.crearFactibPoolServidor}")
 	private String proceCrearFactibPoolServidor;
 	@Value("${db.proce.soluciones.crearFactibilidadMV}")
-	private String proceCrearFactibilidadMV; 
+	private String proceCrearFactibilidadMV;
+	@Value("${db.proce.asignarUbicacionElemento}")
+	private String proceAsignarUbicacionElemento;
+	@Value("${db.proce.modificarUbicacionElemento}")
+	private String proceModificarUbicacionElemento;
 }

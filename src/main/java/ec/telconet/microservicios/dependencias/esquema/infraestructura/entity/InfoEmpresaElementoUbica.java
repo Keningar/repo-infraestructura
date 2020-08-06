@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,7 +33,7 @@ public class InfoEmpresaElementoUbica {
 	@SequenceGenerator(sequenceName = "SEQ_INFO_EMPRESA_ELEMENTO_UBI", allocationSize = 1, initialValue = 1, name = "SEQ_INFO_EMPRESA_ELEMENTO_UBI")
 	@Column(name = "ID_EMPRESA_ELEMENTO_UBICACION")
 	private Long idEmpresaElementoUbicacion;
-
+	
 	@Column(name = "EMPRESA_COD")
 	private String empresaCod;
 	
@@ -57,4 +55,4 @@ public class InfoEmpresaElementoUbica {
 	private String ipCreacion;
 	
 	public static final String idEmpresaElementoUbicacionValue = "idEmpresaElementoUbicacion";
-}  
+}

@@ -14,6 +14,7 @@ import ec.telconet.microservicio.dependencia.util.general.Formato;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DatosVehiculoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DetalleElementoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorCantonParamsReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorCuadrillaParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorDepartamentoParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorFilialParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorGrupoReqDTO;
@@ -452,6 +453,12 @@ public class InfraestructuraValidators {
 		}
 		if (request.getOficinaId() == null) {
 			throw new GenericException("El valor oficinaId es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+	}
+	
+	public void validarElementoPorCuadrillaParams(ElementoPorCuadrillaParamsReqDTO request) throws GenericException {
+		if (request.getCuadrillaId() == null && request.getNombreCuadrilla() == null) {
+			throw new GenericException("El valor cuadrillaId o nombreCuadrilla es requerido", CoreUtilConstants.MISSING_VALUES);
 		}
 	}
 }

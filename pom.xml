@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ec.telconet.microservicios.dependencias</groupId>
 	<artifactId>db-repositorio-infraestructura</artifactId>
-	<version>1.0.4-RELEASE</version>
+	<version>1.0.5-RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>db-repositorio-infraestructura</name>

@@ -61,4 +61,6 @@ public class InfraestructuraProperties {
 	private String proceAsignarUbicacionElemento;
 	@Value("${db.proce.modificarUbicacionElemento}")
 	private String proceModificarUbicacionElemento;
+	@Value("${db.proce.elementoPorCuadrillaParams}")
+	private String proceElementoPorCuadrillaParams;
 }

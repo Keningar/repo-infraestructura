@@ -28,6 +28,7 @@ import ec.telconet.microservicio.dependencia.util.enumerado.StatusHandler;
 import ec.telconet.microservicio.dependencia.util.exception.GenericException;
 import ec.telconet.microservicio.dependencia.util.general.DateDeserializer;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorCantonParamsReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorCuadrillaParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorDepartamentoParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorFilialParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorMonitorizadoReqDTO;
@@ -508,6 +509,45 @@ public class InfoElementoImpl implements InfoElementoService {
 			SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withSchemaName(InfraestructuraConstants.SCHEMA_INFRAESTRUCTURA)
 					.withCatalogName(infraestructuraProperties.getPaqueteElementoConsulta())
 					.withProcedureName(infraestructuraProperties.getProceElementoPorDepartamentoParams())
+					.returningResultSet("PCL_RESPONSE", BeanPropertyRowMapper.newInstance(InfoElemento.class));
+			
+			SqlParameterSource parametrosSource = new MapSqlParameterSource().addValues(parametrosIn);
+			Map<String, Object> parametrosOut = call.execute(parametrosSource);
+			
+			String status = (String) parametrosOut.get("PV_STATUS");
+			String mensaje = (String) parametrosOut.get("PV_MENSAJE");
+			if (status.equalsIgnoreCase("ERROR")) {
+				throw new GenericException(mensaje);
+			}
+			
+			response = (List<InfoElemento>) parametrosOut.get("PCL_RESPONSE");
+		} catch (GenericException e) {
+			throw new GenericException(e.getMessageError(), e.getCodeError());
+		}
+		return response;
+	}
+	
+	/**
+	 * Método que retorna la lista de elementos por cuadrilla y params
+	 * 
+	 * @author Marlon Plúas <mailto:mpluas@telconet.ec>
+	 * @version 1.0
+	 * @since 21/08/2020
+	 */
+	@SuppressWarnings("unchecked")
+	public List<InfoElemento> elementoPorCuadrillaParams(ElementoPorCuadrillaParamsReqDTO request) throws GenericException {
+		List<InfoElemento> response = new ArrayList<InfoElemento>();
+		try {
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			gsonBuilder.registerTypeAdapter(Date.class, new DateDeserializer());
+			
+			infraestructuraValidators.validarElementoPorCuadrillaParams(request);
+			Map<String, Object> parametrosIn = new HashMap<String, Object>();
+			parametrosIn.put("Pcl_Request", gsonBuilder.create().toJson(request));
+			
+			SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withSchemaName(InfraestructuraConstants.SCHEMA_INFRAESTRUCTURA)
+					.withCatalogName(infraestructuraProperties.getPaqueteElementoConsulta())
+					.withProcedureName(infraestructuraProperties.getProceElementoPorCuadrillaParams())
 					.returningResultSet("PCL_RESPONSE", BeanPropertyRowMapper.newInstance(InfoElemento.class));
 			
 			SqlParameterSource parametrosSource = new MapSqlParameterSource().addValues(parametrosIn);

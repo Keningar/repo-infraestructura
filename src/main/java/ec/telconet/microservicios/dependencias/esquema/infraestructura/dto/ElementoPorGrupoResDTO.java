@@ -1,5 +1,10 @@
 package ec.telconet.microservicios.dependencias.esquema.infraestructura.dto;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.utils.InfraestructuraConstants;
 import lombok.Data;
 
 /**
@@ -24,6 +29,15 @@ public class ElementoPorGrupoResDTO {
 	private String chip;
 	private String cuadrilla;
 	private String nombreCuadrilla;
-	private Long oficinaId;
 	private String estado;
+	private String marca;
+	private Long oficinaId;
+	private String responsableTablet;
+	private Long responsableTabletPersonaId;
+	private Long responsableDepartamentoId;
+	private String responsableDepartamento;
+	private String observacion;
+	private String usrCreacion;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = InfraestructuraConstants.TIMEZONE_DATE)
+	private Date feCreacion;
 }

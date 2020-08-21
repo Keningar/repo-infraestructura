@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ec.telconet.microservicio.dependencia.util.dto.PageDTO;
 import ec.telconet.microservicio.dependencia.util.exception.GenericException;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorCantonParamsReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorCuadrillaParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorDepartamentoParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorFilialParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorMonitorizadoReqDTO;
@@ -40,4 +41,5 @@ public interface InfoElementoService {
 	public List<InfoElemento> elementoPorCantonParams(ElementoPorCantonParamsReqDTO request) throws GenericException;
 	public List<InfoElemento> elementoPorFilialParams(ElementoPorFilialParamsReqDTO request) throws GenericException;
 	public List<InfoElemento> elementoPorDepartamentoParams(ElementoPorDepartamentoParamsReqDTO request) throws GenericException;
+	public List<InfoElemento> elementoPorCuadrillaParams(ElementoPorCuadrillaParamsReqDTO request) throws GenericException;
 }

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ec.telconet.microservicios.dependencias</groupId>
 	<artifactId>db-repositorio-infraestructura</artifactId>
-	<version>1.0.5-RELEASE</version>
+	<version>1.0.6-RELEASE</version>
 	<packaging>jar</packaging>
 
 	<name>db-repositorio-infraestructura</name>
@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>ec.telconet.microservicios.dependencias</groupId>
 			<artifactId>ms-core</artifactId>
-			<version>1.0.4-RELEASE</version>
+			<version>1.0.7-RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

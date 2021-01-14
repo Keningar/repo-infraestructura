@@ -21,6 +21,7 @@ public class ElementoPorGrupoResDTO {
 	private String descripcionElemento;
 	private String modelo;
 	private String tipo;
+	private String publishId;
 	private String disco;
 	private String motor;
 	private String chasis;

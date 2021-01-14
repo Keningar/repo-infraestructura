@@ -14,5 +14,5 @@ import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.In
  */
 @Repository
 public interface InfoElementoRepository extends JpaRepository<InfoElemento, Long> {
-	
+	boolean existsByNombreElementoAndEstado(String nombreElemento, String estado);
 }

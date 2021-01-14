@@ -154,6 +154,9 @@ public class InfraestructuraValidators {
 		if (request.getNombreElemento() == null) {
 			throw new GenericException("El valor nombreElemento es requerido", CoreUtilConstants.MISSING_VALUES);
 		}
+		if (infoElementoRepo.existsByNombreElementoAndEstado(request.getNombreElemento(), StatusHandler.Activo.toString())) {
+			throw new GenericException("El elemento ya se encuentra registrado", CoreUtilConstants.EXISTING_VALUES);
+		}
 		if (request.getDescripcionElemento() == null) {
 			throw new GenericException("El valor descripcionElemento es requerido", CoreUtilConstants.MISSING_VALUES);
 		}

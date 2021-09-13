@@ -63,4 +63,9 @@ public class InfraestructuraProperties {
 	private String proceModificarUbicacionElemento;
 	@Value("${db.proce.elementoPorCuadrillaParams}")
 	private String proceElementoPorCuadrillaParams;
+	@Value("${db.paquete.factibilidadConnectivity.consulta}")
+	private String paqueteFactibilidadConnectivityConsulta;
+	@Value("${db.proce.factibilidadConnectivity.obtieneInfoPreFactibilidad}")
+	private String proceObtieneInfoPreFactibilidad;
+	
 }

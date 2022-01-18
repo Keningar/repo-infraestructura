@@ -412,16 +412,12 @@ public class InfraestructuraValidators {
 	}
 	
 	private Boolean validarTipoElemento(Long idElemento, String nombreTipo) {
-		Boolean response;
+		boolean response;
 		try {
 			InfoElemento elemento = infoElementoRepo.findById(idElemento).get();
 			AdmiModeloElemento modeloElemento = admiModeloElementoRepo.findById(elemento.getModeloElementoId()).get();
 			AdmiTipoElemento tipoElemento = admiTipoElementoRepo.findById(modeloElemento.getTipoElementoId()).get();
-			if (tipoElemento.getNombreTipoElemento().equalsIgnoreCase(nombreTipo)) {
-				return true;
-			} else {
-				return false;
-			}
+			return tipoElemento.getNombreTipoElemento().equalsIgnoreCase(nombreTipo);
 		} catch (Exception e) {
 			response = false;
 		}
@@ -469,7 +465,7 @@ public class InfraestructuraValidators {
 			throw new GenericException("El valor cuadrillaId o nombreCuadrilla es requerido", CoreUtilConstants.MISSING_VALUES);
 		}
 	}
-	
+
 	public void validarParamsObtieneInfoPreFactibilidad(PreFactibilidadConnectivityReqDTO request) throws GenericException {
 		if (request.getIdEmpresa() == null || request.getIdEmpresa().trim().isEmpty()) {
 			throw new GenericException("El valor idEmpresa es requerido", CoreUtilConstants.MISSING_VALUES);
@@ -484,5 +480,69 @@ public class InfraestructuraValidators {
 			throw new GenericException("El valor longitud es requerido", CoreUtilConstants.MISSING_VALUES);
 		}
 	}
-	
+
+	public AdmiModeloElemento validarActualizarModeloElemento(AdmiModeloElemento request) throws GenericException {
+		if (request.getIdModeloElemento() == null) {
+			throw new GenericException("El valor idModeloElemento es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+		if (request.getMarcaElementoId() != null && !admiMarcaElementoRepo.existsById(request.getMarcaElementoId())) {
+			throw new GenericException("La marca no existe", CoreUtilConstants.EXISTING_VALUES);
+		}
+		if (request.getTipoElementoId() != null && !admiTipoElementoRepo.existsById(request.getTipoElementoId())) {
+			throw new GenericException("El tipo de elemento no existe", CoreUtilConstants.EXISTING_VALUES);
+		}
+		if (request.getUsrUltMod() == null) {
+			throw new GenericException("El valor usrUltMod es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+		Optional<AdmiModeloElemento> opAdmiModeloElemento = admiModeloElementoRepo.findById(request.getIdModeloElemento());
+		AdmiModeloElemento response;
+		if (opAdmiModeloElemento.isPresent()) {
+			response = opAdmiModeloElemento.get();
+			if (request.getNombreModeloElemento() != null) {
+				boolean validarNombreModelo = !request.getNombreModeloElemento().equalsIgnoreCase(response.getNombreModeloElemento());
+				if (validarNombreModelo && admiModeloElementoRepo.existsByNombreModeloElementoIgnoreCase(request.getNombreModeloElemento())) {
+					throw new GenericException("El nombre del modelo ya se encuentra registrado", CoreUtilConstants.EXISTING_VALUES);
+				}
+			}
+			response.setNombreModeloElemento(
+					request.getNombreModeloElemento() != null ? request.getNombreModeloElemento() : response.getNombreModeloElemento());
+			response.setMarcaElementoId(request.getMarcaElementoId() != null ? request.getMarcaElementoId() : response.getMarcaElementoId());
+			response.setTipoElementoId(request.getTipoElementoId() != null ? request.getTipoElementoId() : response.getTipoElementoId());
+			response.setDescripcionModeloElemento(request.getDescripcionModeloElemento() != null ? request.getDescripcionModeloElemento()
+					: response.getDescripcionModeloElemento());
+			response.setMttr(request.getMttr() != null ? request.getMttr() : response.getMttr());
+			response.setUnidadMedidaMttr(request.getUnidadMedidaMttr() != null ? request.getUnidadMedidaMttr() : response.getUnidadMedidaMttr());
+			response.setMtbf(request.getMtbf() != null ? request.getMtbf() : response.getMtbf());
+			response.setUnidadMedidaMtbf(request.getUnidadMedidaMtbf() != null ? request.getUnidadMedidaMtbf() : response.getUnidadMedidaMtbf());
+			response.setAnchoModelo(request.getAnchoModelo() != null ? request.getAnchoModelo() : response.getAnchoModelo());
+			response.setUnidadMedidaAncho(request.getUnidadMedidaAncho() != null ? request.getUnidadMedidaAncho() : response.getUnidadMedidaAncho());
+			response.setLargoModelo(request.getLargoModelo() != null ? request.getLargoModelo() : response.getLargoModelo());
+			response.setUnidadMedidaLargo(request.getUnidadMedidaLargo() != null ? request.getUnidadMedidaLargo() : response.getUnidadMedidaLargo());
+			response.setAltoModelo(request.getAltoModelo() != null ? request.getAltoModelo() : response.getAltoModelo());
+			response.setUnidadMedidaAlto(request.getUnidadMedidaAlto() != null ? request.getUnidadMedidaAlto() : response.getUnidadMedidaAlto());
+			response.setPesoModelo(request.getPesoModelo() != null ? request.getPesoModelo() : response.getPesoModelo());
+			response.setUnidadMedidaPeso(request.getUnidadMedidaPeso() != null ? request.getUnidadMedidaPeso() : response.getUnidadMedidaPeso());
+			response.setURack(request.getURack() != null ? request.getURack() : response.getURack());
+			response.setCapacidadEntrada(request.getCapacidadEntrada() != null ? request.getCapacidadEntrada() : response.getCapacidadEntrada());
+			response.setUnidadMedidaEntrada(
+					request.getUnidadMedidaEntrada() != null ? request.getUnidadMedidaEntrada() : response.getUnidadMedidaEntrada());
+			response.setCapacidadSalida(request.getCapacidadSalida() != null ? request.getCapacidadSalida() : response.getCapacidadSalida());
+			response.setUnidadMedidaSalida(
+					request.getUnidadMedidaSalida() != null ? request.getUnidadMedidaSalida() : response.getUnidadMedidaSalida());
+			response.setCapacidadVaFabrica(
+					request.getCapacidadVaFabrica() != null ? request.getCapacidadVaFabrica() : response.getCapacidadVaFabrica());
+			response.setUnidadVaFabrica(request.getUnidadVaFabrica() != null ? request.getUnidadVaFabrica() : response.getUnidadVaFabrica());
+			response.setCapacidadVaPromedio(
+					request.getCapacidadVaPromedio() != null ? request.getCapacidadVaPromedio() : response.getCapacidadVaPromedio());
+			response.setUnidadVaPromedio(request.getUnidadVaPromedio() != null ? request.getUnidadVaPromedio() : response.getUnidadVaPromedio());
+			response.setPrecioPromedio(request.getPrecioPromedio() != null ? request.getPrecioPromedio() : response.getPrecioPromedio());
+			response.setEstado(request.getEstado() != null ? request.getEstado() : response.getEstado());
+			response.setReqAprovisionamiento(
+					request.getReqAprovisionamiento() != null ? request.getReqAprovisionamiento() : response.getReqAprovisionamiento());
+			response.setUsrUltMod(request.getUsrUltMod() != null ? request.getUsrUltMod() : response.getUsrUltMod());
+		} else {
+			throw new GenericException("El modelo no existe", CoreUtilConstants.EXISTING_VALUES);
+		}
+		return response;
+	}
 }

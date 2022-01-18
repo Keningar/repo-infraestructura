@@ -19,6 +19,7 @@ import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.Ad
 @Service
 public interface AdmiModeloElementoService {
 	public AdmiModeloElemento guardar(AdmiModeloElemento request) throws GenericException;
+	public AdmiModeloElemento actualizar(AdmiModeloElemento request) throws GenericException;
 	public List<AdmiModeloElemento> lista() throws GenericException;
 	public List<AdmiModeloElemento> listaPor(AdmiModeloElemento request) throws GenericException;
 	public Page<AdmiModeloElemento> paginaListaPor(PageDTO<AdmiModeloElemento> request) throws GenericException;

@@ -17,4 +17,5 @@ import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.Ad
 @Repository
 public interface AdmiModeloElementoRepository extends JpaRepository<AdmiModeloElemento, Long> {
 	List<AdmiModeloElemento> findByNombreModeloElemento(String nombreModeloElemento);
+	Boolean existsByNombreModeloElementoIgnoreCase(String nombreModeloElemento);
 }

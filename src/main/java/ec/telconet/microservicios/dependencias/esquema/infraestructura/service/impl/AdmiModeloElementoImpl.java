@@ -58,6 +58,25 @@ public class AdmiModeloElementoImpl implements AdmiModeloElementoService {
 	}
 	
 	/**
+	 * Método que actualizar un modelo de elemento
+	 * 
+	 * @author Marlon Plúas <mailto:mpluas@telconet.ec>
+	 * @version 1.0
+	 * @since 02/03/2020
+	 */
+	public AdmiModeloElemento actualizar(AdmiModeloElemento request) throws GenericException {
+		AdmiModeloElemento response = new AdmiModeloElemento();
+		try {
+			request = infraestructuraValidators.validarActualizarModeloElemento(request);
+			request.setFeUltMod(new Date());
+			response = admiModeloElementoRepo.save(request);
+		} catch (GenericException e) {
+			throw new GenericException(e.getMessageError(), e.getCodeError());
+		}
+		return response;
+	}
+	
+	/**
 	 * Método que retorna la lista de modelo de elemento
 	 * 
 	 * @author Marlon Plúas <mailto:mpluas@telconet.ec>

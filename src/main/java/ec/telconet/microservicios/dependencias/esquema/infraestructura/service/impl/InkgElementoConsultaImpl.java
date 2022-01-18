@@ -23,6 +23,8 @@ import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.Datos
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DatosVehiculoResDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorGrupoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorGrupoResDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ModelosElemMonitorizadosReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ModelosElemMonitorizadosResDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.service.InkgElementoConsultaService;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.utils.InfraestructuraConstants;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.utils.InfraestructuraProperties;
@@ -120,6 +122,37 @@ public class InkgElementoConsultaImpl implements InkgElementoConsultaService {
 			}
 			
 			response = (List<ElementoPorGrupoResDTO>) parametrosOut.get("PCL_RESPONSE");
+		} catch (GenericException e) {
+			throw new GenericException(e.getMessageError(), e.getCodeError());
+		}
+		return response;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<ModelosElemMonitorizadosResDTO> modelosElementoMonitorizado(ModelosElemMonitorizadosReqDTO request) throws GenericException {
+		List<ModelosElemMonitorizadosResDTO> response = new ArrayList<ModelosElemMonitorizadosResDTO>();
+		try {
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			gsonBuilder.registerTypeAdapter(Date.class, new DateDeserializer());
+			
+			Map<String, Object> parametrosIn = new HashMap<String, Object>();
+			parametrosIn.put("Pcl_Request", gsonBuilder.create().toJson(request));
+			
+			SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withSchemaName(InfraestructuraConstants.SCHEMA_INFRAESTRUCTURA)
+					.withCatalogName(infraestructuraProperties.getPaqueteElementoConsulta())
+					.withProcedureName(infraestructuraProperties.getProceModelosElemMonitorizados())
+					.returningResultSet("PCL_RESPONSE", BeanPropertyRowMapper.newInstance(ModelosElemMonitorizadosResDTO.class));
+			
+			SqlParameterSource parametrosSource = new MapSqlParameterSource().addValues(parametrosIn);
+			Map<String, Object> parametrosOut = call.execute(parametrosSource);
+			
+			String status = (String) parametrosOut.get("PV_STATUS");
+			String mensaje = (String) parametrosOut.get("PV_MENSAJE");
+			if (status.equalsIgnoreCase("ERROR")) {
+				throw new GenericException(mensaje);
+			}
+			
+			response = (List<ModelosElemMonitorizadosResDTO>) parametrosOut.get("PCL_RESPONSE");
 		} catch (GenericException e) {
 			throw new GenericException(e.getMessageError(), e.getCodeError());
 		}

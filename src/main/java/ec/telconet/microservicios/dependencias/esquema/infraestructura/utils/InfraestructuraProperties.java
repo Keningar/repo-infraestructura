@@ -21,8 +21,18 @@ public class InfraestructuraProperties {
 	private String paqueteElementoConsulta;
 	@Value("${db.paquete.elemento.transaccion}")
 	private String paqueteElementoTransaccion;
+	@Value("${db.paquete.procesos.masivos}")
+	private String paqueteProcesosMasivos;
 	@Value("${db.proce.elementoPorTipo}")
 	private String proceElementoPorTipo;
+	@Value("${db.proce.obtenerPm}")
+	private String proceObtenerPm;
+	@Value("${db.proce.procesarMw}")
+	private String proceProcesarMw;
+	@Value("${db.proce.procesarTelcos}")
+	private String proceProcesarTelcos;
+	@Value("${db.proce.procesarCabecerasPm}")
+	private String proceProcesarCabecerasPm;
 	@Value("${db.proce.elementoPorRegionParams}")
 	private String proceElementoPorRegionParams;
 	@Value("${db.proce.elementoPorProvinciaParams}")

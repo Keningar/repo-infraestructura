@@ -32,6 +32,7 @@ import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.Ad
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.InfoDetalleElemento;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.InfoElemento;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.InfoHistorialElemento;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.InfoIp;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.repository.AdmiMarcaElementoRepository;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.repository.AdmiModeloElementoRepository;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.repository.AdmiTipoElementoRepository;
@@ -545,4 +546,11 @@ public class InfraestructuraValidators {
 		}
 		return response;
 	}
+	public void validarIpVacio(InfoIp request) throws GenericException {
+		InfoIp objNull = new InfoIp();
+		if (request.equals(objNull)) {
+			throw new GenericException("Se deben declarar variables para filtrar la lista de ips", CoreUtilConstants.MISSING_VALUES);
+		}
+	}
+	
 }

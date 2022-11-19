@@ -16,7 +16,7 @@
     <name>db-repositorio-infraestructura</name>
 
     <properties>
-        <version>1.1.0-RELEASE</version>
+        <version>1.1.1-RELEASE</version>
         <version.ms-core>1.1.8-RELEASE</version.ms-core>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -38,6 +38,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+            <version>2.13.2.1</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>

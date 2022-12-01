@@ -16,6 +16,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 import com.google.gson.GsonBuilder;
 
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DatosFactibilidadConnectivityReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DatosFactibilidadConnectivityResDTO;
 import ec.telconet.microservicio.dependencia.util.exception.GenericException;
 import ec.telconet.microservicio.dependencia.util.general.DateDeserializer;
 import ec.telconet.microservicio.dependencia.util.general.Formato;
@@ -85,6 +87,51 @@ public class InkgFactibConnectivConsultaImpl implements InkgFactibConnectivConsu
 	        Clob clobJsonResponse = (Clob) parametrosOut.get("PCL_JSONRESPONSE");
 	        String stringJsonResponse = Formato.getStringToCLOB(clobJsonResponse);
 	        response = gsonBuilder.create().fromJson(stringJsonResponse, PreFactibilidadConnectivityResDTO.class);
+	        
+	    } catch (GenericException e) {
+	        throw new GenericException(e.getMessageError(), e.getCodeError());
+	    }
+	    return response;
+    }
+    
+    /**
+     * Método encargado de obtener la respuesta de factibilidad
+     *
+     * @author Antonio Ayala <mailto:afayala@telconet.ec>
+	 * @version 1.0
+	 * @since 21/07/2022
+     *
+     * @param  request {@linkplain DatosFactibilidadConnectivityReqDTO}
+     * @return {@linkplain DatosFactibilidadConnectivityResDTO}
+     * @throws GenericException
+     */
+    public DatosFactibilidadConnectivityResDTO obtenerDatosFactibilidad(DatosFactibilidadConnectivityReqDTO request) throws GenericException {
+    	DatosFactibilidadConnectivityResDTO response = new DatosFactibilidadConnectivityResDTO();
+	    try {
+	        GsonBuilder gsonBuilder = new GsonBuilder();
+	        gsonBuilder.registerTypeAdapter(Date.class, new DateDeserializer());
+	        
+	        infraestructuraValidators.validarParamsObtenerDatosFactibilidad(request);
+	        Map<String, Object> parametrosIn = new HashMap<String, Object>();
+	        parametrosIn.put("Pcl_JsonRequest", gsonBuilder.create().toJson(request));
+	        
+	        SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate)
+	                .withSchemaName(InfraestructuraConstants.SCHEMA_INFRAESTRUCTURA)
+	                .withCatalogName(infraestructuraProperties.getPaqueteFactibilidadConnectivityConsulta())
+	                .withProcedureName(infraestructuraProperties.getProceObtenerDatosFactibilidad())
+	                .declareParameters(
+							new SqlOutParameter("PCL_JSONRESPONSE", Types.CLOB));
+	        SqlParameterSource parametrosSource = new MapSqlParameterSource().addValues(parametrosIn);
+	        Map<String, Object> parametrosOut = call.execute(parametrosSource);
+	        String status = (String) parametrosOut.get("PV_STATUS");
+	        String mensaje = (String) parametrosOut.get("PV_MENSAJE");
+	        if (status.equalsIgnoreCase("ERROR")) {
+	            throw new GenericException(mensaje);
+	        }
+	        
+	        Clob clobJsonResponse = (Clob) parametrosOut.get("PCL_JSONRESPONSE");
+	        String stringJsonResponse = Formato.getStringToCLOB(clobJsonResponse);
+	        response = gsonBuilder.create().fromJson(stringJsonResponse, DatosFactibilidadConnectivityResDTO.class);
 	        
 	    } catch (GenericException e) {
 	        throw new GenericException(e.getMessageError(), e.getCodeError());

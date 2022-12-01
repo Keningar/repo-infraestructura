@@ -11,6 +11,7 @@ import ec.telconet.microservicio.dependencia.util.dto.PageDTO;
 import ec.telconet.microservicio.dependencia.util.enumerado.StatusHandler;
 import ec.telconet.microservicio.dependencia.util.exception.GenericException;
 import ec.telconet.microservicio.dependencia.util.general.Formato;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DatosFactibilidadConnectivityReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DatosVehiculoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DetalleElementoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorCantonParamsReqDTO;
@@ -468,6 +469,21 @@ public class InfraestructuraValidators {
 	}
 
 	public void validarParamsObtieneInfoPreFactibilidad(PreFactibilidadConnectivityReqDTO request) throws GenericException {
+		if (request.getIdEmpresa() == null || request.getIdEmpresa().trim().isEmpty()) {
+			throw new GenericException("El valor idEmpresa es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+		if (request.getPrefijoEmpresa() == null || request.getPrefijoEmpresa().trim().isEmpty()) {
+			throw new GenericException("El valor prefijoEmpresa es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+		if (request.getLatitud() == null) {
+			throw new GenericException("El valor latitud es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+		if (request.getLongitud() == null) {
+			throw new GenericException("El valor longitud es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+	}
+	
+	public void validarParamsObtenerDatosFactibilidad(DatosFactibilidadConnectivityReqDTO request) throws GenericException {
 		if (request.getIdEmpresa() == null || request.getIdEmpresa().trim().isEmpty()) {
 			throw new GenericException("El valor idEmpresa es requerido", CoreUtilConstants.MISSING_VALUES);
 		}

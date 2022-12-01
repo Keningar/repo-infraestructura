@@ -79,4 +79,6 @@ public class InfraestructuraProperties {
 	private String proceObtieneInfoPreFactibilidad;
 	@Value("${db.proce.modelosElemMonitorizados}")
 	private String proceModelosElemMonitorizados;
+	@Value("${db.proce.factibilidadConnectivity.obtenerDatosFactibilidad}")
+	private String proceObtenerDatosFactibilidad;
 }

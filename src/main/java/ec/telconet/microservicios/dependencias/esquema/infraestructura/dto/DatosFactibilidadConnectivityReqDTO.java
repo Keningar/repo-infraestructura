@@ -10,6 +10,10 @@ import lombok.Data;
  * @author Antonio Ayala <mailto:afayala@telconet.ec>
  * @version 1.0
  * @since 21/07/2022
+ * 
+ * @author Steven Ruano <mailto:sruano@telconet.ec>
+ * @version 1.1      Se agregaron variables booleanTipoRedGpon y intIdServicio
+ * @since 22/12/2022 
  */
 @Data
 public class DatosFactibilidadConnectivityReqDTO {
@@ -19,4 +23,6 @@ public class DatosFactibilidadConnectivityReqDTO {
 	private BigDecimal latitud;
 	private BigDecimal longitud;
 	private String strLogin;
+	private Boolean booleanTipoRedGpon;
+	private Integer intIdServicio;
 }

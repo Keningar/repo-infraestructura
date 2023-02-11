@@ -23,6 +23,26 @@ public class InfraestructuraProperties {
 	private String paqueteElementoTransaccion;
 	@Value("${db.paquete.procesos.masivos}")
 	private String paqueteProcesosMasivos;
+    @Value("${db.paquete.migracion.alta.densidad}")
+    private String paqueteMigracionAltaDensidad;
+    @Value("${db.proce.obtenerCabMigracion}")
+    private String proceObtenerCabMigracion;
+    @Value("${db.proce.validarCabMigracion}")
+    private String proceValidarCabMigracion;
+    @Value("${db.proce.agruparDetalles}")
+    private String proceAgruparDetalles;
+    @Value("${db.proce.procesarOlts}")
+    private String proceProcesarOlts;
+    @Value("${db.proce.procesarSplitters}")
+    private String proceProcesarSplitters;
+    @Value("${db.proce.procesarEnlaces}")
+    private String proceProcesarEnlaces;
+    @Value("${db.proce.procesarClientes}")
+    private String proceProcesarClientes;
+    @Value("${db.proce.procesarScopes}")
+    private String proceProcesarScopes;
+    @Value("${db.proce.reversarCabMigracion}")
+    private String proceReversarCabMigracion;
 	@Value("${db.proce.elementoPorTipo}")
 	private String proceElementoPorTipo;
 	@Value("${db.proce.obtenerPm}")

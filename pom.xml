@@ -16,8 +16,8 @@
     <name>db-repositorio-infraestructura</name>
 
     <properties>
-        <version>1.1.4-RELEASE</version>
-        <version.ms-core>1.1.8-RELEASE</version.ms-core>
+        <version>1.1.5-RELEASE</version>
+        <version.ms-core>1.1.9-RELEASE</version.ms-core>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>

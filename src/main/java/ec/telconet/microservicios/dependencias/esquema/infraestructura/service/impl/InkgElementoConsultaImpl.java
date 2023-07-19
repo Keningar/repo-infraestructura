@@ -21,10 +21,21 @@ import ec.telconet.microservicio.dependencia.util.exception.GenericException;
 import ec.telconet.microservicio.dependencia.util.general.DateDeserializer;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DatosVehiculoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.DatosVehiculoResDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoKardexReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoKardexResDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorGrupoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorGrupoResDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorPlacaReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorTipoReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ListaKardexReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ListaKardexResDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ListaPlacaDiscoResDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ModelosElemMonitorizadosReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ModelosElemMonitorizadosResDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.TareasKardexReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.TareasKardexResDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.TotalRegistrosKardexResDTo;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.InfoElemento;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.service.InkgElementoConsultaService;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.utils.InfraestructuraConstants;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.utils.InfraestructuraProperties;
@@ -153,6 +164,198 @@ public class InkgElementoConsultaImpl implements InkgElementoConsultaService {
 			}
 			
 			response = (List<ModelosElemMonitorizadosResDTO>) parametrosOut.get("PCL_RESPONSE");
+		} catch (GenericException e) {
+			throw new GenericException(e.getMessageError(), e.getCodeError());
+		}
+		return response;
+	}
+	
+	/**
+	 * Método que retorna la lista de registros del kardex
+	 * 
+	 * @author José Castillo <mailto:jmcastillo@telconet.ec>
+	 * @version 1.0
+	 * @since 16/05/2023
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ListaKardexResDTO> listaKardex(ListaKardexReqDTO request) throws GenericException {
+		List<ListaKardexResDTO> response = new ArrayList<ListaKardexResDTO>();
+		try {
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			gsonBuilder.registerTypeAdapter(Date.class, new DateDeserializer());
+			
+			Map<String, Object> parametrosIn = new HashMap<String, Object>();
+			parametrosIn.put("Pcl_Request", gsonBuilder.create().toJson(request));
+			
+			SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withSchemaName(InfraestructuraConstants.SCHEMA_INFRAESTRUCTURA)
+					.withCatalogName(infraestructuraProperties.getPaqueteElementoConsulta())
+					.withProcedureName(infraestructuraProperties.getProceKardexDetalle())
+					.returningResultSet("PCL_RESPONSE", BeanPropertyRowMapper.newInstance(ListaKardexResDTO.class));
+			
+			SqlParameterSource parametrosSource = new MapSqlParameterSource().addValues(parametrosIn);
+			Map<String, Object> parametrosOut = call.execute(parametrosSource);
+			
+			String status = (String) parametrosOut.get("PV_STATUS");
+			String mensaje = (String) parametrosOut.get("PV_MENSAJE");
+			if (status.equalsIgnoreCase("ERROR")) {
+				throw new GenericException(mensaje);
+			}
+			
+			response = (List<ListaKardexResDTO>) parametrosOut.get("PCL_RESPONSE");
+		} catch (GenericException e) {
+			throw new GenericException(e.getMessageError(), e.getCodeError());
+		}
+		return response;
+	}
+	
+	/**
+	 * Método que retorna el total de registros del kardex
+	 * 
+	 * @author José Castillo <mailto:jmcastillo@telconet.ec>
+	 * @version 1.0
+	 * @since 16/05/2023
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TotalRegistrosKardexResDTo> totalRegistrosKardex(ListaKardexReqDTO request) throws GenericException {
+		List<TotalRegistrosKardexResDTo> response = new ArrayList<TotalRegistrosKardexResDTo>();
+		try {
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			gsonBuilder.registerTypeAdapter(Date.class, new DateDeserializer());
+			
+			Map<String, Object> parametrosIn = new HashMap<String, Object>();
+			parametrosIn.put("Pcl_Request", gsonBuilder.create().toJson(request));
+			
+			SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withSchemaName(InfraestructuraConstants.SCHEMA_INFRAESTRUCTURA)
+					.withCatalogName(infraestructuraProperties.getPaqueteElementoConsulta())
+					.withProcedureName(infraestructuraProperties.getProceKardexTotal())
+					.returningResultSet("PCL_RESPONSE", BeanPropertyRowMapper.newInstance(TotalRegistrosKardexResDTo.class));
+			
+			SqlParameterSource parametrosSource = new MapSqlParameterSource().addValues(parametrosIn);
+			Map<String, Object> parametrosOut = call.execute(parametrosSource);
+			
+			String status = (String) parametrosOut.get("PV_STATUS");
+			String mensaje = (String) parametrosOut.get("PV_MENSAJE");
+			if (status.equalsIgnoreCase("ERROR")) {
+				throw new GenericException(mensaje);
+			}
+			
+			response = (List<TotalRegistrosKardexResDTo>) parametrosOut.get("PCL_RESPONSE");
+		} catch (GenericException e) {
+			throw new GenericException(e.getMessageError(), e.getCodeError());
+		}
+		return response;
+	}
+	
+	/**
+	 * Método que retorna la lista de registros del kardex
+	 * 
+	 * @author José Castillo <mailto:jmcastillo@telconet.ec>
+	 * @version 1.0
+	 * @since 16/05/2023
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ElementoKardexResDTO> elementoKardex(ElementoKardexReqDTO request) throws GenericException {
+		List<ElementoKardexResDTO> response = new ArrayList<ElementoKardexResDTO>();
+		try {
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			gsonBuilder.registerTypeAdapter(Date.class, new DateDeserializer());
+			
+			Map<String, Object> parametrosIn = new HashMap<String, Object>();
+			parametrosIn.put("Pcl_Request", gsonBuilder.create().toJson(request));
+			
+			SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withSchemaName(InfraestructuraConstants.SCHEMA_INFRAESTRUCTURA)
+					.withCatalogName(infraestructuraProperties.getPaqueteElementoConsulta())
+					.withProcedureName(infraestructuraProperties.getProceDetalleElementoKardex())
+					.returningResultSet("PCL_RESPONSE", BeanPropertyRowMapper.newInstance(ElementoKardexResDTO.class));
+			
+			SqlParameterSource parametrosSource = new MapSqlParameterSource().addValues(parametrosIn);
+			Map<String, Object> parametrosOut = call.execute(parametrosSource);
+			
+			String status = (String) parametrosOut.get("PV_STATUS");
+			String mensaje = (String) parametrosOut.get("PV_MENSAJE");
+			if (status.equalsIgnoreCase("ERROR")) {
+				throw new GenericException(mensaje);
+			}
+			
+			response = (List<ElementoKardexResDTO>) parametrosOut.get("PCL_RESPONSE");
+		} catch (GenericException e) {
+			throw new GenericException(e.getMessageError(), e.getCodeError());
+		}
+		return response;
+	}
+	
+
+	/**
+	 * Método que retorna la lista de registros del kardex
+	 * 
+	 * @author José Castillo <mailto:jmcastillo@telconet.ec>
+	 * @version 1.0
+	 * @since 16/05/2023
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TareasKardexResDTO> kardexTarea(TareasKardexReqDTO request) throws GenericException {
+		List<TareasKardexResDTO> response = new ArrayList<TareasKardexResDTO>();
+		try {
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			gsonBuilder.registerTypeAdapter(Date.class, new DateDeserializer());
+			
+			Map<String, Object> parametrosIn = new HashMap<String, Object>();
+			parametrosIn.put("Pcl_Request", gsonBuilder.create().toJson(request));
+			
+			SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withSchemaName(InfraestructuraConstants.SCHEMA_INFRAESTRUCTURA)
+					.withCatalogName(infraestructuraProperties.getPaqueteElementoConsulta())
+					.withProcedureName(infraestructuraProperties.getProceKardexTarea())
+					.returningResultSet("PCL_RESPONSE", BeanPropertyRowMapper.newInstance(TareasKardexResDTO.class));
+			
+			SqlParameterSource parametrosSource = new MapSqlParameterSource().addValues(parametrosIn);
+			Map<String, Object> parametrosOut = call.execute(parametrosSource);
+			
+			String status = (String) parametrosOut.get("PV_STATUS");
+			String mensaje = (String) parametrosOut.get("PV_MENSAJE");
+			if (status.equalsIgnoreCase("ERROR")) {
+				throw new GenericException(mensaje);
+			}
+			
+			response = (List<TareasKardexResDTO>) parametrosOut.get("PCL_RESPONSE");
+		} catch (GenericException e) {
+			throw new GenericException(e.getMessageError(), e.getCodeError());
+		}
+		return response;
+	}
+	
+	/**
+	 * Método que retorna la lista de placas correspondientes al elemento vehiculo
+	 * 
+	 * @author José Castillo <mailto:jmcastillo@telconet.ec>
+	 * @version 1.0
+	 * @since 16/05/2023
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ListaPlacaDiscoResDTO> placasVehiculo(ElementoPorPlacaReqDTO request) throws GenericException {
+		List<ListaPlacaDiscoResDTO> response = new ArrayList<ListaPlacaDiscoResDTO>();
+		try {
+			GsonBuilder gsonBuilder = new GsonBuilder();
+			gsonBuilder.registerTypeAdapter(Date.class, new DateDeserializer());	
+			
+			infraestructuraValidators.validarElementoPorTipoPlaca(request);
+			Map<String, Object> parametrosIn = new HashMap<String, Object>();
+			parametrosIn.put("Pcl_Request", gsonBuilder.create().toJson(request));
+			
+			SimpleJdbcCall call = new SimpleJdbcCall(jdbcTemplate).withSchemaName(InfraestructuraConstants.SCHEMA_INFRAESTRUCTURA)
+					.withCatalogName(infraestructuraProperties.getPaqueteElementoConsulta())
+					.withProcedureName(infraestructuraProperties.getProceElementoPorTipoPlaca())
+					.returningResultSet("PCL_RESPONSE", BeanPropertyRowMapper.newInstance(ListaPlacaDiscoResDTO.class));
+			
+			SqlParameterSource parametrosSource = new MapSqlParameterSource().addValues(parametrosIn);
+			Map<String, Object> parametrosOut = call.execute(parametrosSource);
+			
+			String status = (String) parametrosOut.get("PV_STATUS");
+			String mensaje = (String) parametrosOut.get("PV_MENSAJE");
+			if (status.equalsIgnoreCase("ERROR")) {
+				throw new GenericException(mensaje);
+			}
+			
+			response = (List<ListaPlacaDiscoResDTO>) parametrosOut.get("PCL_RESPONSE");
 		} catch (GenericException e) {
 			throw new GenericException(e.getMessageError(), e.getCodeError());
 		}

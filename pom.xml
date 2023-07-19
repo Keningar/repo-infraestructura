@@ -16,7 +16,7 @@
     <name>db-repositorio-infraestructura</name>
 
     <properties>
-        <version>1.1.6-RELEASE</version>
+        <version>1.1.7-RELEASE</version>
         <version.ms-core>1.1.9-RELEASE</version.ms-core>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

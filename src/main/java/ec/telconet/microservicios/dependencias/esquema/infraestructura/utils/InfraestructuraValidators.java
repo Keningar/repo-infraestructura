@@ -20,6 +20,7 @@ import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.Eleme
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorFilialParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorGrupoReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorParroquiaParamsReqDTO;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorPlacaReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorProvinciaParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorRegionParamsReqDTO;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.dto.ElementoPorTipoReqDTO;
@@ -31,14 +32,19 @@ import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.Ad
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.AdmiModeloElemento;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.AdmiTipoElemento;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.InfoDetalleElemento;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.InfoDetalleKardex;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.InfoElemento;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.InfoHistorialElemento;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.InfoIp;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.InfoKardex;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.InfoKardexTarea;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.entity.InfoTipoMantenimiento;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.repository.AdmiMarcaElementoRepository;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.repository.AdmiModeloElementoRepository;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.repository.AdmiTipoElementoRepository;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.repository.InfoDetalleElementoRepository;
 import ec.telconet.microservicios.dependencias.esquema.infraestructura.repository.InfoElementoRepository;
+import ec.telconet.microservicios.dependencias.esquema.infraestructura.repository.InfoKardexRepository;
 
 /**
  * Clase donde se encuentran las validaciones del modulo infraestructura
@@ -67,6 +73,9 @@ public class InfraestructuraValidators {
 	
 	@Autowired
 	InfoDetalleElementoRepository infoDetalleElementoRepo;
+	
+	@Autowired
+	InfoKardexRepository infoKardexRepo;
 	
 	public void validarGuardarTipoElemento(AdmiTipoElemento request) throws GenericException {
 		if (request.getNombreTipoElemento() == null) {
@@ -150,6 +159,24 @@ public class InfraestructuraValidators {
 		}
 	}
 	
+	public void validarGuardarKardex(InfoKardex request) throws GenericException {
+		if (request.getFilial() == null) {
+			throw new GenericException("El valor filial es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+	}
+	
+	public void validarGuardarKardexTarea(InfoKardexTarea request) throws GenericException {
+		if (request.getTipoMantenimientoId() == null) {
+			throw new GenericException("El id del tipo de mantenimiento es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+	}
+	
+	public void validarGuardarDetalleKardex(InfoDetalleKardex request) throws GenericException {
+		if (request.getKardexId() == null) {
+			throw new GenericException("El id del Kardex es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+	}
+	
 	public void validarGuardarElemento(InfoElemento request) throws GenericException {
 		if (request.getModeloElementoId() == null) {
 			throw new GenericException("El valor modeloElementoId es requerido", CoreUtilConstants.MISSING_VALUES);
@@ -227,6 +254,12 @@ public class InfraestructuraValidators {
 	
 	public void validarElementoPorTipo(ElementoPorTipoReqDTO request) throws GenericException {
 		if (request.getNombreTipo() == null && request.getTipoId() == null) {
+			throw new GenericException("El valor tipoId o nombreTipo es requerido", CoreUtilConstants.MISSING_VALUES);
+		}
+	}
+	
+	public void validarElementoPorTipoPlaca(ElementoPorPlacaReqDTO request) throws GenericException {
+		if (request.getNombreElemento() == null) {
 			throw new GenericException("El valor tipoId o nombreTipo es requerido", CoreUtilConstants.MISSING_VALUES);
 		}
 	}
@@ -355,6 +388,13 @@ public class InfraestructuraValidators {
 	
 	public void validarElementoVacio(InfoElemento request) throws GenericException {
 		InfoElemento objNull = new InfoElemento();
+		if (request.equals(objNull)) {
+			throw new GenericException("Se deben declarar variables para filtrar la lista de elementos", CoreUtilConstants.MISSING_VALUES);
+		}
+	}
+	
+	public void validarTipoMantenimiento(InfoTipoMantenimiento request) throws GenericException {
+		InfoTipoMantenimiento objNull = new InfoTipoMantenimiento();
 		if (request.equals(objNull)) {
 			throw new GenericException("Se deben declarar variables para filtrar la lista de elementos", CoreUtilConstants.MISSING_VALUES);
 		}

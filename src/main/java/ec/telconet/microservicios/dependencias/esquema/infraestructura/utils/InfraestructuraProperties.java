@@ -45,6 +45,12 @@ public class InfraestructuraProperties {
     private String proceReversarCabMigracion;
 	@Value("${db.proce.elementoPorTipo}")
 	private String proceElementoPorTipo;
+	@Value("${db.proce.elementoPorTipoPlaca}")
+	private String proceElementoPorTipoPlaca;
+	@Value("${db.proce.detalleElementoKardex}")
+	private String proceDetalleElementoKardex;
+	@Value("${db.proce.kardexTarea}")
+	private String proceKardexTarea;
 	@Value("${db.proce.obtenerPm}")
 	private String proceObtenerPm;
 	@Value("${db.proce.procesarMw}")
@@ -99,6 +105,10 @@ public class InfraestructuraProperties {
 	private String proceObtieneInfoPreFactibilidad;
 	@Value("${db.proce.modelosElemMonitorizados}")
 	private String proceModelosElemMonitorizados;
+	@Value("${db.proce.kardexDetalle}")
+	private String proceKardexDetalle;
+	@Value("${db.proce.kardexTotal}")
+	private String proceKardexTotal;
 	@Value("${db.proce.factibilidadConnectivity.obtenerDatosFactibilidad}")
 	private String proceObtenerDatosFactibilidad;
 }
